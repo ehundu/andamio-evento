@@ -4,6 +4,8 @@ Un sitio para un evento, hecho con [Ehundu](https://ehundu.com), el generador de
 
 El evento de ejemplo, Hilván, es inventado, como sus ponentes y sus patrocinadores. Las fechas son de mayo de 2027: si abres el andamio mucho después, la cuenta atrás dirá que ya ha terminado y los avisos con plazo habrán desaparecido. Cambia las fechas y vuelve a compilar.
 
+Puedes verlo funcionando, sin instalar nada, en [andamio-evento.ehundu.com](https://andamio-evento.ehundu.com/).
+
 Necesitas PHP 8.4 o superior y [Composer](https://getcomposer.org).
 
 ## Empezar
