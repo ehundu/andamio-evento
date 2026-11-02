@@ -1,0 +1,1177 @@
+/* Los estilos del sitio, en un solo fichero. Los colores y las medidas están arriba, en variables:
+   cambiando esas líneas cambia el aspecto de todo. Respeta el modo oscuro del sistema. La franja de arriba de la portada
+   y el aviso (--hero) son oscuros en los dos modos. */
+
+:root {
+  --fondo: #faf8f5;
+  --tinta: #1c1830;
+  --texto: #433f58;
+  --apagado: #6a6580;
+  --acento: #b3361b;
+  --sobre-acento: #ffffff;
+  --linea: #e4e0ea;
+  --suave: #f1eef6;
+  --tarjeta: #ffffff;
+  --aviso: #fff4cf;
+  --aviso-borde: #d6a800;
+
+  /* La franja oscura de la portada y del aviso, y el ámbar que la acompaña */
+  --hero: #261c55;
+  --sobre-hero: #f5f2ff;
+  --sobre-hero-suave: #cdc6ee;
+  --ambar: #ffbe5c;
+  --sobre-ambar: #261c55;
+
+  --tipo: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* La anchura del sitio, la del texto y la de las páginas con dos columnas */
+  --ancho: 68rem;
+  --ancho-texto: 44rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #14111f;
+    --tinta: #f3f0fa;
+    --texto: #c9c4dc;
+    --apagado: #9d97b5;
+    --acento: #ff9a76;
+    --sobre-acento: #2a0f06;
+    --linea: #2c2740;
+    --suave: #1c1830;
+    --tarjeta: #1a1628;
+    --aviso: #3a3210;
+    --aviso-borde: #b89500;
+    --hero: #1d1542;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Al saltar a un día del programa, que no lo tape nada */
+  scroll-padding-top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font: 1.0625rem/1.65 var(--tipo);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--tinta);
+  line-height: 1.15;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw + 1rem, 3rem);
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  margin: 2.25rem 0 0.5rem;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--acento);
+}
+
+address {
+  font-style: normal;
+}
+
+/* Siempre se ve dónde está el foco del teclado */
+:focus-visible {
+  outline: 3px solid var(--acento);
+  outline-offset: 3px;
+}
+
+.contenedor {
+  width: min(100% - 2rem, var(--ancho));
+  margin-inline: auto;
+}
+
+.oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* El enlace para saltar al contenido: solo se ve al llegar a él con el teclado */
+.saltar {
+  position: absolute;
+  top: -4rem;
+  left: 1rem;
+  z-index: 10;
+  padding: 0.5rem 1rem;
+  background: var(--tinta);
+  color: var(--fondo);
+}
+
+.saltar:focus {
+  top: 1rem;
+}
+
+/* El aviso de arriba de todas las páginas */
+
+.anuncio {
+  background: var(--hero);
+  color: var(--sobre-hero);
+  font-size: 0.9375rem;
+}
+
+.anuncio__cuerpo {
+  padding-block: 0.6rem;
+  text-align: center;
+}
+
+.anuncio__cuerpo p {
+  margin: 0;
+}
+
+.anuncio a {
+  color: var(--ambar);
+  font-weight: 700;
+}
+
+.anuncio :focus-visible {
+  outline-color: var(--ambar);
+}
+
+/* La cabecera */
+
+.cabecera {
+  border-bottom: 1px solid var(--linea);
+}
+
+.cabecera__barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding-block: 0.9rem;
+}
+
+.cabecera__nombre {
+  color: var(--tinta);
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.cabecera__nombre span {
+  color: var(--acento);
+}
+
+.cabecera ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cabecera nav a:not(.boton) {
+  color: var(--texto);
+  text-decoration: none;
+}
+
+.cabecera nav a:not(.boton):hover,
+.cabecera nav a[aria-current="page"]:not(.boton) {
+  color: var(--tinta);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.4em;
+}
+
+.cabecera nav .boton {
+  padding: 0.5rem 1.1rem;
+}
+
+/* El botón del menú solo existe en pantallas estrechas */
+.cabecera__casilla,
+.cabecera__boton {
+  display: none;
+}
+
+/* Pantallas estrechas (móviles y tablets en vertical): la barra es una sola fila, con el nombre y el botón, y el menú se
+   abre debajo al marcar la casilla */
+@media (max-width: 48rem) {
+  .cabecera__barra {
+    gap: 0 1rem;
+    padding-block: 0.75rem;
+  }
+
+  /* Visualmente oculta pero con foco: el anillo de foco lo lleva la etiqueta */
+  .cabecera__casilla {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+  }
+
+  .cabecera__boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--tinta);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .cabecera__boton:hover {
+    border-color: var(--acento);
+  }
+
+  .cabecera__casilla:focus-visible + .cabecera__boton {
+    outline: 3px solid var(--acento);
+    outline-offset: 3px;
+  }
+
+  /* Las tres rayas (la del medio es el propio elemento) y, con el menú abierto, una aspa */
+  .cabecera__icono,
+  .cabecera__icono::before,
+  .cabecera__icono::after {
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--tinta);
+  }
+
+  .cabecera__icono {
+    position: relative;
+  }
+
+  .cabecera__icono::before,
+  .cabecera__icono::after {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+
+  .cabecera__icono::before {
+    top: -6px;
+  }
+
+  .cabecera__icono::after {
+    top: 6px;
+  }
+
+  .cabecera__casilla:checked + .cabecera__boton .cabecera__icono {
+    background: transparent;
+  }
+
+  .cabecera__casilla:checked + .cabecera__boton .cabecera__icono::before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+
+  .cabecera__casilla:checked + .cabecera__boton .cabecera__icono::after {
+    top: 0;
+    transform: rotate(-45deg);
+  }
+
+  .cabecera nav {
+    display: none;
+    order: 3;
+    width: 100%;
+    margin-top: 0.75rem;
+  }
+
+  .cabecera__casilla:checked ~ nav {
+    display: block;
+  }
+
+  .cabecera ul {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-top: 1px solid var(--linea);
+  }
+
+  .cabecera li + li {
+    border-top: 1px solid var(--linea);
+  }
+
+  .cabecera nav a:not(.boton) {
+    display: block;
+    padding: 0.75rem 0;
+    font-size: 1.125rem;
+  }
+
+  .cabecera nav a[aria-current="page"]:not(.boton) {
+    color: var(--acento);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .cabecera nav .cabecera__cta {
+    padding-block: 0.9rem 0.5rem;
+    border-top: 0;
+  }
+
+  /* El botón de las entradas conserva los colores de un botón y no los de un enlace del menú */
+  .cabecera nav .boton {
+    display: block;
+    padding: 0.7rem 1.4rem;
+    font-size: 1.0625rem;
+    text-align: center;
+  }
+}
+
+/* El pie */
+
+.pie {
+  margin-top: 5rem;
+  padding-block: 2.5rem 1.5rem;
+  border-top: 1px solid var(--linea);
+  background: var(--suave);
+  color: var(--texto);
+  font-size: 0.9375rem;
+}
+
+.pie__rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1.5rem 2rem;
+}
+
+.pie p {
+  margin: 0.2rem 0;
+}
+
+.pie__titulo {
+  color: var(--tinta);
+  font-weight: 700;
+}
+
+.pie ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pie li {
+  margin: 0.2rem 0;
+}
+
+.pie__fin {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--linea);
+  color: var(--apagado);
+}
+
+.pie__fin p {
+  margin: 0;
+}
+
+/* Un botón, y sus versiones: clara, para el fondo normal, y ámbar y con borde, para la franja oscura */
+
+.boton {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border: 2px solid var(--acento);
+  border-radius: 10px;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.boton:hover {
+  border-color: var(--tinta);
+  background: var(--tinta);
+  color: var(--fondo);
+}
+
+.boton--claro {
+  background: transparent;
+  color: var(--acento);
+}
+
+.boton--ambar {
+  border-color: var(--ambar);
+  background: var(--ambar);
+  color: var(--sobre-ambar);
+}
+
+.boton--ambar:hover {
+  border-color: var(--sobre-hero);
+  background: var(--sobre-hero);
+  color: var(--hero);
+}
+
+.boton--borde {
+  border-color: var(--sobre-hero);
+  background: transparent;
+  color: var(--sobre-hero);
+}
+
+.boton--borde:hover {
+  border-color: var(--sobre-hero);
+  background: var(--sobre-hero);
+  color: var(--hero);
+}
+
+/* Una página de texto (preguntas, código de conducta, textos legales, 404) */
+
+.pagina {
+  width: min(100% - 2rem, var(--ancho-texto));
+  padding-block: 3rem 1rem;
+}
+
+.pagina--ancha {
+  width: min(100% - 2rem, var(--ancho));
+}
+
+.antetitulo {
+  margin: 0 0 0.75rem;
+  color: var(--apagado);
+  font-size: 0.9375rem;
+}
+
+.antetitulo a {
+  color: var(--apagado);
+}
+
+/* El texto: Markdown corriente, así que todo lo que lleva se estiliza aquí */
+
+.prosa {
+  max-width: var(--ancho-texto);
+}
+
+.pagina h1 + .prosa,
+.listado h1 + .prosa {
+  margin-top: 1.25rem;
+}
+
+.prosa > :first-child {
+  margin-top: 0;
+}
+
+.prosa h2 {
+  margin: 2.25rem 0 0.4rem;
+  font-size: 1.375rem;
+}
+
+.prosa p,
+.prosa ul,
+.prosa ol,
+.prosa blockquote {
+  margin: 1rem 0 0;
+}
+
+.prosa ul,
+.prosa ol {
+  padding-left: 1.5rem;
+}
+
+.prosa li + li {
+  margin-top: 0.4rem;
+}
+
+.prosa code {
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--suave);
+  font: 0.875em ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+
+/* El recuadro del atajo [aviso]: los textos legales de modelo lo llevan arriba, para no olvidarse de revisarlos */
+
+.aviso {
+  margin: 0 0 1.5rem;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid var(--linea);
+  border-left-width: 5px;
+  border-radius: 8px;
+  background: var(--suave);
+  color: var(--tinta);
+  font-size: 0.9375rem;
+}
+
+.aviso--modelo {
+  border-color: var(--aviso-borde);
+  background: var(--aviso);
+}
+
+.aviso > :first-child {
+  margin-top: 0;
+}
+
+.aviso > :last-child {
+  margin-bottom: 0;
+}
+
+/* La portada: la franja oscura con el nombre, la fecha y la cuenta atrás */
+
+.hero {
+  background: var(--hero);
+  color: var(--sobre-hero);
+}
+
+/* La puntada del hilván, de lado a lado, al pie de la franja */
+.hero::after {
+  content: "";
+  display: block;
+  height: 6px;
+  background: repeating-linear-gradient(90deg, var(--ambar) 0 18px, transparent 18px 30px);
+}
+
+.hero :focus-visible {
+  outline-color: var(--ambar);
+}
+
+.hero__cuerpo {
+  padding-block: clamp(2.5rem, 7vw, 5rem) clamp(2.5rem, 6vw, 4rem);
+}
+
+.hero__tipo {
+  margin: 0 0 1rem;
+  color: var(--ambar);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.9375rem;
+}
+
+.hero h1 {
+  color: #ffffff;
+  font-size: clamp(3.25rem, 11vw + 0.5rem, 7rem);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.hero__lema {
+  margin: 1rem 0 0;
+  font-size: clamp(1.25rem, 2.5vw + 0.5rem, 1.75rem);
+  line-height: 1.3;
+}
+
+.hero__donde {
+  margin: 1.25rem 0 0;
+  color: var(--sobre-hero-suave);
+  font-size: 1.125rem;
+}
+
+.hero__botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.75rem 0 0;
+}
+
+.hero__calendario {
+  margin: 1.25rem 0 0;
+  font-size: 0.9375rem;
+}
+
+.hero__calendario a {
+  color: var(--sobre-hero);
+}
+
+/* La cuenta atrás: la fecha siempre se ve, el reloj solo si el script lo muestra */
+
+.cuenta {
+  margin: 2rem 0 0;
+  max-width: 30rem;
+}
+
+.cuenta__fecha {
+  margin: 0;
+  color: var(--sobre-hero-suave);
+}
+
+.cuenta__reloj[hidden] {
+  display: none;
+}
+
+.cuenta__mensaje {
+  margin: 0.9rem 0 0.6rem;
+  color: var(--ambar);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.cuenta__cifras {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cuenta__cifras li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.7rem 0.4rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.cuenta__cifras b {
+  color: #ffffff;
+  font-size: clamp(1.75rem, 7vw, 2.75rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.cuenta__cifras span {
+  margin-top: 0.35rem;
+  color: var(--sobre-hero-suave);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Cuando ya ha empezado o ha terminado, el mensaje basta */
+.cuenta[data-estado="durante"] .cuenta__cifras,
+.cuenta[data-estado="despues"] .cuenta__cifras {
+  display: none;
+}
+
+/* La portada: el resto de bloques */
+
+.portada__bloque {
+  margin-top: 3.5rem;
+}
+
+.portada__bloque h2 {
+  margin: 0 0 1.25rem;
+}
+
+.portada__intro {
+  max-width: var(--ancho-texto);
+}
+
+.portada__intro .prosa {
+  font-size: 1.1875rem;
+}
+
+.portada__mas {
+  margin: 1.5rem 0 0;
+  font-weight: 700;
+}
+
+.portada__dos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 2rem 3rem;
+}
+
+.direccion {
+  margin: 0 0 1rem;
+  color: var(--tinta);
+  font-size: 1.125rem;
+}
+
+/* Los días del programa, en la portada */
+
+.dias-resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dia-tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  height: 100%;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--linea);
+  border-radius: 14px;
+  background: var(--tarjeta);
+  color: var(--tinta);
+  text-decoration: none;
+}
+
+.dia-tarjeta:hover {
+  border-color: var(--acento);
+}
+
+.dia-tarjeta strong {
+  font-size: 1.25rem;
+}
+
+.dia-tarjeta span {
+  color: var(--apagado);
+}
+
+/* Los ponentes: la rejilla y la tarjeta */
+
+.ponentes {
+  display: grid;
+  /* Dos columnas en un móvil y, en una pantalla ancha, tarjetas que no pasan de 12 rem (con `12rem` en lugar de `1fr`
+     arriba, el navegador cuenta las columnas con ese máximo y un móvil se quedaría con una) */
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 1.75rem 1.25rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.portada__bloque .ponentes {
+  margin-top: 0;
+}
+
+.ponente {
+  max-width: 12rem;
+}
+
+.ponente__enlace {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: var(--tinta);
+  text-decoration: none;
+}
+
+.ponente__foto {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  margin-bottom: 0.5rem;
+  border-radius: 50%;
+}
+
+.ponente__enlace:hover strong {
+  color: var(--acento);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.ponente__enlace strong {
+  font-size: 1.125rem;
+  line-height: 1.25;
+}
+
+.ponente__cargo {
+  color: var(--apagado);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+/* Las páginas con una lista (ponentes, entradas, patrocinadores) */
+
+.listado {
+  padding-block: 2.5rem 1rem;
+}
+
+.listado h2 {
+  margin-top: 2.5rem;
+}
+
+/* El programa */
+
+.programa {
+  padding-block: 2.5rem 1rem;
+}
+
+.programa__dias ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 700;
+}
+
+.dia {
+  margin-top: 2.5rem;
+}
+
+.dia h2 {
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--tinta);
+}
+
+.dia h2 span {
+  color: var(--apagado);
+  font-weight: 400;
+}
+
+.sesiones {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sesion {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0.25rem 1.25rem;
+  padding: 1.1rem 0 1.1rem 0;
+  border-bottom: 1px solid var(--linea);
+  scroll-margin-top: 1rem;
+}
+
+.sesion__hora {
+  margin: 0.2rem 0 0;
+  color: var(--tinta);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.sesion__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  margin: 0;
+}
+
+.etiqueta,
+.sala {
+  display: inline-block;
+  padding: 0.05rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.etiqueta {
+  background: var(--acento);
+  color: var(--sobre-acento);
+}
+
+.sala {
+  border: 1px solid var(--linea);
+  color: var(--apagado);
+}
+
+.sesion h3 {
+  margin: 0.3rem 0 0.2rem;
+  font-size: 1.3125rem;
+  letter-spacing: -0.01em;
+}
+
+.sesion__ponentes {
+  margin: 0;
+  color: var(--tinta);
+  font-weight: 600;
+}
+
+.sesion__resumen {
+  margin-top: 0.6rem;
+}
+
+.sesion__resumen summary {
+  color: var(--acento);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.sesion__resumen .prosa {
+  margin-top: 0.4rem;
+}
+
+/* Una charla principal se nota; una pausa, no */
+
+.sesion--keynote {
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+  border-left: 5px solid var(--acento);
+  background: var(--suave);
+}
+
+.sesion--pausa {
+  padding-block: 0.6rem;
+  color: var(--apagado);
+}
+
+.sesion--pausa h3 {
+  margin: 0;
+  color: var(--apagado);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sesion--pausa .sesion__hora {
+  color: var(--apagado);
+}
+
+/* La ficha de un ponente */
+
+.ficha {
+  width: min(100% - 2rem, var(--ancho-texto));
+  padding-block: 2.5rem 1rem;
+}
+
+.ficha__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 2rem;
+}
+
+.ficha__foto {
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+}
+
+.ficha__resumen {
+  margin: 0.75rem 0 0;
+  font-size: 1.25rem;
+}
+
+.ficha__enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 700;
+}
+
+.ficha .prosa {
+  margin-top: 2rem;
+}
+
+.ficha__sesiones {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ficha__sesiones li {
+  display: flex;
+  flex-direction: column;
+  padding-block: 0.7rem;
+  border-top: 1px solid var(--linea);
+}
+
+.ficha__sesiones li:last-child {
+  border-bottom: 1px solid var(--linea);
+}
+
+.ficha__sesiones a {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.ficha__sesiones span {
+  color: var(--apagado);
+  font-size: 0.9375rem;
+}
+
+/* Las entradas */
+
+.entradas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1.25rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entrada {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 1px solid var(--linea);
+  border-radius: 14px;
+  background: var(--tarjeta);
+}
+
+.entrada h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.entrada__precio {
+  margin: 0.6rem 0 0;
+  color: var(--acento);
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.entrada__plazo {
+  margin: 0.5rem 0 0;
+  color: var(--apagado);
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.entrada .prosa {
+  margin-top: 0.75rem;
+}
+
+.entrada__incluye {
+  margin: 0.75rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.entrada .boton {
+  margin-top: auto;
+}
+
+.entrada > p:last-child {
+  margin: 1.25rem 0 0;
+}
+
+.entradas__cerrado {
+  margin-top: 2rem;
+  font-size: 1.125rem;
+}
+
+/* Lugar */
+
+.donde {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 1rem 3.5rem;
+  margin-top: 1.5rem;
+}
+
+.donde h2 {
+  margin-top: 1.5rem;
+}
+
+.como-llegar {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.como-llegar li {
+  padding-block: 0.5rem;
+  border-top: 1px solid var(--linea);
+}
+
+.como-llegar li:last-child {
+  border-bottom: 1px solid var(--linea);
+}
+
+/* Los patrocinadores: sus logotipos van sobre blanco, para que se vean en el modo oscuro */
+
+.patrocinadores .nivel {
+  margin-top: 1.5rem;
+}
+
+.nivel__titulo {
+  margin: 0 0 0.6rem;
+  color: var(--apagado);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.listado .patrocinadores .nivel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+}
+
+.nivel ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nivel a {
+  display: flex;
+  align-items: center;
+  padding: 0.9rem 1.25rem;
+  border: 1px solid var(--linea);
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.nivel a:hover {
+  border-color: var(--acento);
+}
+
+.nivel img {
+  display: block;
+  height: 2.5rem;
+  width: auto;
+}
+
+.nivel--principal img {
+  height: 3.5rem;
+}
+
+.patrocinadores--compacto {
+  margin-top: 3.5rem;
+}
+
+.patrocinadores--compacto h2 {
+  margin: 0 0 0.5rem;
+}
+
+/* Pantallas estrechas: el programa pasa a una columna, con la hora encima de la sesión */
+@media (max-width: 36rem) {
+  .sesion {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sesion__hora {
+    margin: 0;
+  }
+
+  .sesion--keynote {
+    margin-inline: -0.5rem;
+    padding-inline: 0.5rem;
+  }
+
+  .cuenta__cifras {
+    gap: 0.4rem;
+  }
+
+  .ficha__cabecera {
+    gap: 1rem;
+  }
+}

@@ -1,0 +1,24 @@
+{# Una sesión del programa. Recibe `s` (la sesión): su hora, su sala, su título, sus ponentes y, si tiene texto, de qué va, en un
+   desplegable que no necesita JavaScript #}
+{% set tipos = {'keynote': 'Charla principal', 'charla': 'Charla', 'taller': 'Taller', 'mesa': 'Mesa redonda'} %}
+<li class="sesion sesion--{{ s.tipo|default('general') }}" id="{{ s.titulo|slug }}">
+  <p class="sesion__hora">
+    <time>{{ s.hora }}</time>{% if s.fin %}<span aria-hidden="true">–</span><span class="oculto"> a </span><time>{{ s.fin }}</time>{% endif %}
+  </p>
+  <div class="sesion__cuerpo">
+    {% if tipos[s.tipo] is defined or s.sala %}
+    <p class="sesion__meta">
+      {% if tipos[s.tipo] is defined %}<span class="etiqueta">{{ tipos[s.tipo] }}</span>{% endif %}
+      {% if s.sala %}<span class="sala">{{ s.sala }}</span>{% endif %}
+    </p>
+    {% endif %}
+    <h3>{{ s.titulo }}</h3>
+    {% include 'parciales/ponentes-de-sesion.twig' %}
+    {% if s.contenido|striptags|trim %}
+    <details class="sesion__resumen">
+      <summary>De qué va</summary>
+      <div class="prosa">{{ s.contenido }}</div>
+    </details>
+    {% endif %}
+  </div>
+</li>

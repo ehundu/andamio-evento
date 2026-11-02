@@ -1,0 +1,41 @@
+{
+    "name": "ehundu/andamio-evento",
+    "description": "Un sitio para un evento hecho con Ehundu, con cuenta atrás, programa por días, ponentes con su ficha, entradas que salen y caducan en su fecha, calendario, lugar y páginas legales de modelo, para empezar.",
+    "type": "project",
+    "license": "MIT",
+    "keywords": [
+        "ehundu",
+        "andamio",
+        "scaffold",
+        "scaffolding",
+        "starter",
+        "skeleton",
+        "evento",
+        "congreso",
+        "jornadas",
+        "conferencia",
+        "programa",
+        "ponentes",
+        "plantilla",
+        "sitio-estatico",
+        "generador-de-sitios-estaticos"
+    ],
+    "homepage": "https://ehundu.com/documentacion/empezar/",
+    "require": {
+        "php": ">=8.4",
+        "ehundu/ehundu": "^1.0"
+    },
+    "scripts": {
+        "servir": "ehundu servir",
+        "compilar": "ehundu compilar",
+        "desplegar": "ehundu desplegar"
+    },
+    "scripts-descriptions": {
+        "servir": "Previsualiza el sitio en http://127.0.0.1:8000/ y rehace solo lo que cambia.",
+        "compilar": "Compila el sitio en la carpeta salida/.",
+        "desplegar": "Compila el sitio y lo sube al destino de sitio.yml."
+    },
+    "config": {
+        "process-timeout": 0
+    }
+}

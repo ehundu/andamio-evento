@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="{{ pagina.idioma }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if pagina.url == '/' %}{{ datos.evento.nombre }} {{ datos.evento.edicion }} · {{ datos.evento.tipo }}{% else %}{{ pagina.titulo }} · {{ datos.evento.nombre }} {{ datos.evento.edicion }}{% endif %}</title>
+  {% set descripcion = pagina.descripcion ?: sitio.descripcion %}
+  {% if descripcion %}<meta name="description" content="{{ descripcion }}">{% endif %}
+  {% if pagina.url != '/404.html' %}<link rel="canonical" href="{{ sitio.url }}{{ pagina.url }}">{% endif %}
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ version('css/estilos.css') }}">
+  {# Los datos estructurados del evento, para los buscadores: solo en las páginas que los piden #}
+  {% block datosEstructurados %}{% endblock %}
+</head>
+<body>
+  <a class="saltar" href="#contenido">Ir al contenido</a>
+  {% include 'parciales/anuncio.twig' %}
+  {% include 'parciales/cabecera.twig' %}
+  <main id="contenido">
+    {% block cuerpo %}{% endblock %}
+  </main>
+  {% include 'parciales/pie.twig' %}
+  {# El JavaScript que declara una página con su campo `js` (la portada, el de la cuenta atrás); en las demás no sale nada #}
+  {{ js_fichero() }}
+</body>
+</html>

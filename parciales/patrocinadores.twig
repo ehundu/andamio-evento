@@ -1,0 +1,24 @@
+{# Los patrocinadores de datos/patrocinadores.yml, por niveles. Con `compacto` (la portada) llevan un solo título; sin él (la
+   página de patrocinadores), un título por nivel #}
+{% set niveles = datos.patrocinadores.niveles|filter(n => n.patrocinadores|length) %}
+{% if niveles|length %}
+<section class="patrocinadores{{ compacto ? ' patrocinadores--compacto' : '' }}" aria-labelledby="patrocinan">
+  {% if compacto %}<h2 id="patrocinan">Quién lo hace posible</h2>{% endif %}
+  {% for n in niveles %}
+  <div class="nivel nivel--{{ n.clase|default('general') }}">
+    {% if compacto %}
+    <p class="nivel__titulo">{{ n.nombre }}</p>
+    {% else %}
+    <h2{% if loop.first %} id="patrocinan"{% endif %}>{{ n.nombre }}</h2>
+    {% endif %}
+    <ul>
+      {% for p in n.patrocinadores %}
+      <li>
+        <a href="{{ p.enlace }}" target="_blank" rel="noopener noreferrer"><img src="/{{ p.logo }}" width="300" height="80" alt="{{ p.nombre }}" loading="lazy"><span class="oculto"> (se abre en una pestaña nueva)</span></a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</section>
+{% endif %}

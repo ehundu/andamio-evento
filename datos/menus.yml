@@ -1,0 +1,11 @@
+# El menú de la cabecera. Para añadir una página, una entrada nueva en esta lista.
+# El botón de las entradas, al final, va aparte en parciales/cabecera.twig.
+principal:
+  - texto: Programa
+    enlace: /programa/
+  - texto: Ponentes
+    enlace: /ponentes/
+  - texto: Lugar
+    enlace: /lugar/
+  - texto: Preguntas
+    enlace: /preguntas-frecuentes/

@@ -1,0 +1,8 @@
+{# El aviso de arriba de todas las páginas: cada aviso es un fichero de contenido/avisos/ que sale entre su `publicar` y su
+   `publicarHasta`, y deja de salir solo cuando pasa su fecha (al compilar). Si hay varios vigentes, sale el primero por
+   `orden` #}
+{% for a in coleccion('avisos')|orden('orden')|limite(1) %}
+<aside class="anuncio" aria-label="Aviso">
+  <div class="contenedor anuncio__cuerpo">{{ a.contenido }}</div>
+</aside>
+{% endfor %}

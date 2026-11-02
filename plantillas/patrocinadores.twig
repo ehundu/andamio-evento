@@ -1,0 +1,10 @@
+{% extends 'plantillas/base.twig' %}
+
+{# Quién patrocina, por niveles, y cómo patrocinar #}
+{% block cuerpo %}
+<div class="contenedor listado">
+  <h1>{{ pagina.titulo }}</h1>
+  <div class="prosa">{{ pagina.contenido }}</div>
+  {% include 'parciales/patrocinadores.twig' %}
+</div>
+{% endblock %}

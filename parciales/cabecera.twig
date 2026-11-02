@@ -1,0 +1,18 @@
+<header class="cabecera">
+  <div class="contenedor cabecera__barra">
+    <a class="cabecera__nombre" href="/">{{ datos.evento.nombre }} <span>{{ datos.evento.edicion }}</span></a>
+    {# El botón del menú en pantallas estrechas, sin JavaScript: una casilla (un interruptor para los lectores de
+       pantalla) y su etiqueta. Con una pantalla ancha no se ven y el menú está siempre a la vista #}
+    <input type="checkbox" role="switch" id="cabecera-menu" class="cabecera__casilla">
+    <label for="cabecera-menu" class="cabecera__boton"><span class="cabecera__icono" aria-hidden="true"></span><span class="oculto">Menú</span></label>
+    <nav aria-label="Principal">
+      <ul>
+        {% for entrada in datos.menus.principal %}
+        <li><a href="{{ entrada.enlace }}"{% if activo(entrada.enlace) %} aria-current="page"{% endif %}>{{ entrada.texto }}</a></li>
+        {% endfor %}
+        {# El botón de las entradas, siempre a la vista: es a lo que se viene #}
+        <li class="cabecera__cta"><a class="boton" href="/entradas/"{% if activo('/entradas/') %} aria-current="page"{% endif %}>Entradas</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

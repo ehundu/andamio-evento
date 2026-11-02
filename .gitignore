@@ -1,0 +1,5 @@
+# Lo que genera el motor y lo que no se comparte
+/vendor/
+/salida/
+/.ehundu/
+/.secretos.yml

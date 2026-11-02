@@ -1,0 +1,30 @@
+{% extends 'plantillas/base.twig' %}
+
+{# Todos los ponentes: primero los principales (`keynote: true`) y después los demás, por nombre #}
+{% block cuerpo %}
+{% set todos = coleccion('ponentes')|orden('titulo') %}
+{% set principales = todos|filter(p => p.keynote) %}
+{% set otros = todos|filter(p => not p.keynote) %}
+<div class="contenedor listado">
+  <h1>{{ pagina.titulo }}</h1>
+  <div class="prosa">{{ pagina.contenido }}</div>
+
+  {% if principales|length %}
+  <h2>Charlas principales</h2>
+  <ul class="ponentes">
+    {% for p in principales %}
+    {% include 'parciales/tarjeta-ponente.twig' %}
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if otros|length %}
+  <h2>Charlas, talleres y mesa redonda</h2>
+  <ul class="ponentes">
+    {% for p in otros %}
+    {% include 'parciales/tarjeta-ponente.twig' %}
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endblock %}

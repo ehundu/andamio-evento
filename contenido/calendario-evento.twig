@@ -1,0 +1,33 @@
+---
+# El calendario del evento entero, para añadirlo al del móvil o al del ordenador: un fichero .ics con un solo acto. Es una
+# página como las demás, pero su dirección acaba en .ics y no lleva plantilla, así que sale tal cual. No entra en el sitemap.
+url: /evento.ics
+plantilla: false
+listada: no
+---
+{% autoescape false %}
+{% set e = datos.evento %}
+{% set salto = "\r\n" %}
+{% set dominio = sitio.url|replace({'https://': '', 'http://': ''}) %}
+{# Las horas en UTC (la Z del final), que todos los calendarios entienden sin más datos #}
+{% set inicio = (e.inicio.dia|date('Y-m-d') ~ ' ' ~ e.inicio.hora)|date('Ymd\\THis\\Z', 'UTC') %}
+{% set fin = (e.fin.dia|date('Y-m-d') ~ ' ' ~ e.fin.hora)|date('Ymd\\THis\\Z', 'UTC') %}
+{% set lugar = e.lugar.nombre ~ ', ' ~ e.lugar.calle ~ ', ' ~ e.lugar.localidad %}
+{% set lineas = [
+  'BEGIN:VCALENDAR',
+  'VERSION:2.0',
+  'PRODID:-//Ehundu//Andamio de evento//ES',
+  'CALSCALE:GREGORIAN',
+  'BEGIN:VEVENT',
+  'UID:evento@' ~ dominio,
+  'DTSTAMP:' ~ inicio,
+  'DTSTART:' ~ inicio,
+  'DTEND:' ~ fin,
+  'SUMMARY:' ~ (e.nombre ~ ' ' ~ e.edicion)|replace({'\\': '\\\\', ';': '\\;', ',': '\\,'}),
+  'LOCATION:' ~ lugar|replace({'\\': '\\\\', ';': '\\;', ',': '\\,'}),
+  'URL:' ~ sitio.url ~ '/',
+  'END:VEVENT',
+  'END:VCALENDAR'
+] %}
+{{ lineas|join(salto) }}{{ salto }}
+{% endautoescape %}

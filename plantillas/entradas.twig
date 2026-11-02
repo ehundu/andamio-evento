@@ -1,0 +1,35 @@
+{% extends 'plantillas/base.twig' %}
+
+{# Las entradas a la venta. Cada tipo es un fichero de contenido/entradas/ con sus fechas: sale entre su `publicar` y su
+   `publicarHasta`, así que la entrada anticipada se va sola el último día de su plazo y la general sale el siguiente #}
+{% block cuerpo %}
+{% set e = datos.evento %}
+{% set entradas = coleccion('entradas')|orden('orden') %}
+<div class="contenedor listado">
+  <h1>{{ pagina.titulo }}</h1>
+  <div class="prosa">{{ pagina.contenido }}</div>
+
+  {% if entradas|length %}
+  <ul class="entradas">
+    {% for t in entradas %}
+    <li class="entrada">
+      <h2>{{ t.titulo }}</h2>
+      <p class="entrada__precio">{{ t.precio }} €</p>
+      {% if t.publicarHasta %}<p class="entrada__plazo">Hasta el {{ t.publicarHasta|fecha('j \\d\\e F') }}</p>{% endif %}
+      <div class="prosa">{{ t.contenido }}</div>
+      {% if t.incluye %}
+      <ul class="entrada__incluye">
+        {% for i in t.incluye %}<li>{{ i }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+      {% if e.entradas.enlace %}
+      <p><a class="boton" href="{{ e.entradas.enlace }}" target="_blank" rel="noopener noreferrer">Comprar<span class="oculto"> {{ t.titulo }} (se abre en una pestaña nueva)</span></a></p>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="entradas__cerrado">La venta de entradas no está abierta. Si ya ha terminado el plazo o aún no ha empezado, escríbenos a <a href="mailto:{{ e.organizacion.email }}">{{ e.organizacion.email }}</a>.</p>
+  {% endif %}
+</div>
+{% endblock %}

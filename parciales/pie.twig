@@ -1,0 +1,31 @@
+{% import 'parciales/macros.twig' as f %}
+{% set e = datos.evento %}
+<footer class="pie">
+  <div class="contenedor pie__rejilla">
+    <div>
+      <p class="pie__titulo">{{ e.nombre }} {{ e.edicion }}</p>
+      <p>{{ e.tipo }}</p>
+      <p>{{ f.cuando(e) }}</p>
+    </div>
+    <address>
+      <p class="pie__titulo">Dónde</p>
+      <p>{{ e.lugar.nombre }}<br>{{ e.lugar.calle }}<br>{{ e.lugar.codigoPostal }} {{ e.lugar.localidad }}</p>
+      <p><a href="mailto:{{ e.organizacion.email }}">{{ e.organizacion.email }}</a></p>
+    </address>
+    <div>
+      <p class="pie__titulo">Información</p>
+      <ul>
+        <li><a href="/preguntas-frecuentes/">Preguntas frecuentes</a></li>
+        <li><a href="/codigo-de-conducta/">Código de conducta</a></li>
+        <li><a href="/patrocinadores/">Patrocinadores</a></li>
+        <li><a href="/aviso-legal/">Aviso legal</a></li>
+        <li><a href="/privacidad/">Política de privacidad</a></li>
+        <li><a href="/cookies/">Política de cookies</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="contenedor pie__fin">
+    <p>© {{ e.organizacion.nombre }}</p>
+    <p><a href="https://ehundu.com" target="_blank" rel="noopener noreferrer">Hecho con Ehundu<span class="oculto"> (se abre en una pestaña nueva)</span></a></p>
+  </div>
+</footer>

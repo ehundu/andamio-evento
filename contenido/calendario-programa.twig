@@ -1,0 +1,37 @@
+---
+# El programa entero, una sesión por cada acto, para añadirlo al calendario. Mismo mecanismo que el del evento: una página
+# cuya dirección acaba en .ics. Las pausas no entran, y una sesión que aún no se ha publicado, tampoco.
+url: /programa.ics
+plantilla: false
+listada: no
+---
+{% autoescape false %}
+{% set e = datos.evento %}
+{% set salto = "\r\n" %}
+{% set dominio = sitio.url|replace({'https://': '', 'http://': ''}) %}
+{% set lineas = [
+  'BEGIN:VCALENDAR',
+  'VERSION:2.0',
+  'PRODID:-//Ehundu//Andamio de evento//ES',
+  'CALSCALE:GREGORIAN'
+] %}
+{% for s in coleccion('sesiones')|orden('dia, hora, sala')|filter(s => s.tipo != 'pausa') %}
+{% set dia = s.dia|date('Y-m-d') %}
+{% set inicio = (dia ~ ' ' ~ s.hora)|date('Ymd\\THis\\Z', 'UTC') %}
+{% set fin = (dia ~ ' ' ~ (s.fin ?: s.hora))|date('Ymd\\THis\\Z', 'UTC') %}
+{% set lugar = (s.sala ? s.sala ~ ', ' : '') ~ e.lugar.nombre ~ ', ' ~ e.lugar.localidad %}
+{% set lineas = lineas|merge([
+  'BEGIN:VEVENT',
+  'UID:' ~ dia ~ '-' ~ (s.titulo|slug) ~ '@' ~ dominio,
+  'DTSTAMP:' ~ inicio,
+  'DTSTART:' ~ inicio,
+  'DTEND:' ~ fin,
+  'SUMMARY:' ~ s.titulo|replace({'\\': '\\\\', ';': '\\;', ',': '\\,'}),
+  'LOCATION:' ~ lugar|replace({'\\': '\\\\', ';': '\\;', ',': '\\,'}),
+  'URL:' ~ sitio.url ~ '/programa/',
+  'END:VEVENT'
+]) %}
+{% endfor %}
+{% set lineas = lineas|merge(['END:VCALENDAR']) %}
+{{ lineas|join(salto) }}{{ salto }}
+{% endautoescape %}

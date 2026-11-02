@@ -1,0 +1,39 @@
+{% extends 'plantillas/base.twig' %}
+
+{# La ficha de un ponente: su foto, quién es, sus enlaces y sus sesiones del programa. Sus sesiones son las que lo nombran en
+   su campo `ponentes` con el nombre del fichero de esta ficha #}
+{% block cuerpo %}
+{% set clave = pagina.url|split('/')|filter(parte => parte)|last %}
+{% set sesiones = coleccion('sesiones')|donde('ponentes', clave)|orden('dia, hora') %}
+<article class="contenedor ficha ficha--ponente">
+  <header class="ficha__cabecera">
+    {% if pagina.foto %}<img class="ficha__foto" src="/{{ pagina.foto }}" width="240" height="240" alt="">{% endif %}
+    <div>
+      <p class="antetitulo"><a href="/ponentes/">Ponentes</a></p>
+      <h1>{{ pagina.titulo }}</h1>
+      {% if pagina.cargo %}<p class="ficha__resumen">{{ pagina.cargo }}{% if pagina.organizacion %}, {{ pagina.organizacion }}{% endif %}</p>{% endif %}
+      {% if pagina.enlaces %}
+      <ul class="ficha__enlaces">
+        {% for enlace in pagina.enlaces %}
+        <li><a href="{{ enlace.url }}" target="_blank" rel="noopener noreferrer">{{ enlace.nombre }}<span class="oculto"> (se abre en una pestaña nueva)</span></a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="prosa">{{ pagina.contenido }}</div>
+
+  {% if sesiones|length %}
+  <h2>Dónde y cuándo</h2>
+  <ul class="ficha__sesiones">
+    {% for s in sesiones %}
+    <li>
+      <a href="/programa/#{{ s.titulo|slug }}">{{ s.titulo }}</a>
+      <span>{{ s.dia|fecha('l j \\d\\e F') }}, {{ s.hora }}{% if s.sala %} · {{ s.sala }}{% endif %}</span>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</article>
+{% endblock %}

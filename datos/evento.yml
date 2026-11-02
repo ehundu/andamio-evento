@@ -1,0 +1,59 @@
+# Los datos de tu evento, que se escriben una vez y salen donde hacen falta: la cabecera, el pie, la portada, la cuenta
+# atrás, el calendario, la página del lugar y los datos estructurados que leen los buscadores. En una plantilla son
+# `datos.evento.nombre`, y en un texto en Markdown, [dato clave="evento.nombre"].
+nombre: Hilván
+edicion: 2027
+tipo: Jornadas de diseño y desarrollo web
+lema: Dos días para hacer la web a mano.
+
+# Cuándo empieza y cuándo termina: el día sin comillas (AAAA-MM-DD) y la hora entre comillas, de 24 horas. El motor
+# calcula el desfase de la zona horaria de sitio.yml, así que no hay que escribirlo.
+inicio:
+  dia: 2027-05-14
+  hora: "09:00"
+fin:
+  dia: 2027-05-15
+  hora: "14:30"
+
+# Los días del programa. Cada sesión de contenido/programa/sesiones/ dice a cuál pertenece con su campo `dia`.
+dias:
+  - dia: 2027-05-14
+    nombre: Viernes
+  - dia: 2027-05-15
+    nombre: Sábado
+
+# Dónde es. Las coordenadas las ves en cualquier mapa, con clic derecho.
+lugar:
+  nombre: Sala Ejemplo
+  calle: Calle Ejemplo 1
+  codigoPostal: "48001"
+  localidad: Bilbao
+  provincia: Bizkaia
+  pais: ES
+  coordenadas:
+    lat: 43.2631
+    lng: -2.9340
+  # Cómo llegar sin coche, una línea por cada medio
+  comoLlegar:
+    - medio: Metro
+      texto: Moyúa (líneas 1 y 2), a cinco minutos andando.
+    - medio: Tranvía
+      texto: Parada Abando, a diez minutos andando.
+    - medio: Autobús
+      texto: Líneas 38 y 56, parada Gran Vía.
+    - medio: Coche
+      texto: Aparcamiento público a cien metros, en la calle Ejemplo 20.
+
+# Dónde se compran las entradas. Si lo dejas vacío, las tarjetas de entradas no llevan botón de compra.
+entradas:
+  enlace: https://example.org/comprar
+
+# Quién organiza y cómo contactar. El correo sale en la página de contacto, en el código de conducta y en el pie.
+organizacion:
+  nombre: Asociación Ejemplo
+  email: hola@hilvan.example
+
+# Tus redes, con la dirección completa. Una que dejes vacía no sale en ninguna parte.
+redes:
+  - nombre: Mastodon
+    enlace: https://mastodon.example/@hilvan

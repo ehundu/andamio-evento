@@ -1,0 +1,6 @@
+# Los ponentes. Cada fichero de esta carpeta es uno, y su nombre de fichero es su clave: `ana-ruiz.md` sale en
+# /ponentes/ana-ruiz/ y las sesiones lo nombran así (`ponentes: [ana-ruiz]`). La etiqueta los reúne en la colección que
+# leen la portada, la lista y las sesiones.
+plantilla: ponente
+etiquetas: [ponentes]
+url: "/ponentes/{{ nombreDeFichero }}/"

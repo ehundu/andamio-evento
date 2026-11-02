@@ -1,0 +1,4 @@
+# Los textos legales: páginas de texto sin plantilla propia, que no salen en las colecciones ni en el sitemap y cuya
+# dirección es su nombre de fichero (/aviso-legal/, /privacidad/, /cookies/)
+listada: no
+url: "/{{ nombreDeFichero }}/"

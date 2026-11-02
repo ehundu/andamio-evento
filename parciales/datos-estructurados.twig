@@ -1,0 +1,53 @@
+{# Los datos estructurados (JSON-LD, del tipo Event) que leen los buscadores para enseñar el evento con su fecha, su lugar, sus
+   ponentes y sus entradas. Salen de datos/evento.yml y de las colecciones de ponentes y entradas, así que no hay que
+   escribirlos dos veces: un ponente o una entrada que aún no se ha publicado, o que ya ha caducado, tampoco sale aquí #}
+{% set e = datos.evento %}
+{% set l = e.lugar %}
+{% set inicio = (e.inicio.dia|date('Y-m-d') ~ ' ' ~ e.inicio.hora)|date('c') %}
+{% set fin = (e.fin.dia|date('Y-m-d') ~ ' ' ~ e.fin.hora)|date('c') %}
+
+{% set ofertas = [] %}
+{% for t in coleccion('entradas')|orden('orden') %}
+{% set ofertas = ofertas|merge([{
+  '@type': 'Offer',
+  'name': t.titulo,
+  'price': t.precio,
+  'priceCurrency': 'EUR',
+  'url': e.entradas.enlace,
+  'availability': 'https://schema.org/InStock'
+}]) %}
+{% endfor %}
+
+{% set ponentes = [] %}
+{% for p in coleccion('ponentes')|orden('titulo') %}
+{% set ponentes = ponentes|merge([{'@type': 'Person', 'name': p.titulo, 'url': sitio.url ~ p.url}]) %}
+{% endfor %}
+
+{% set evento = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  'name': e.nombre ~ ' ' ~ e.edicion,
+  'description': sitio.descripcion,
+  'url': sitio.url ~ '/',
+  'startDate': inicio,
+  'endDate': fin,
+  'eventStatus': 'https://schema.org/EventScheduled',
+  'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
+  'location': {
+    '@type': 'Place',
+    'name': l.nombre,
+    'address': {
+      '@type': 'PostalAddress',
+      'streetAddress': l.calle,
+      'postalCode': l.codigoPostal,
+      'addressLocality': l.localidad,
+      'addressRegion': l.provincia,
+      'addressCountry': l.pais
+    },
+    'geo': {'@type': 'GeoCoordinates', 'latitude': l.coordenadas.lat, 'longitude': l.coordenadas.lng}
+  },
+  'organizer': {'@type': 'Organization', 'name': e.organizacion.nombre, 'email': e.organizacion.email},
+  'performer': ponentes,
+  'offers': ofertas
+} %}
+<script type="application/ld+json">{{ evento|filter(v => v is not empty)|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>

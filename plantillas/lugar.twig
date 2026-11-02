@@ -1,0 +1,42 @@
+{% extends 'plantillas/base.twig' %}
+{% import 'parciales/macros.twig' as f %}
+
+{# El lugar: la dirección, el enlace al mapa, cómo llegar y cuándo es #}
+{% block cuerpo %}
+{% set e = datos.evento %}
+{% set l = e.lugar %}
+{# El mapa es un enlace a OpenStreetMap, no un mapa incrustado: así la página no carga nada de terceros ni pone cookies #}
+{% set mapa = 'https://www.openstreetmap.org/?mlat=' ~ l.coordenadas.lat ~ '&mlon=' ~ l.coordenadas.lng ~ '#map=17/' ~ l.coordenadas.lat ~ '/' ~ l.coordenadas.lng %}
+<div class="contenedor pagina pagina--ancha">
+  <h1>{{ pagina.titulo }}</h1>
+  <div class="prosa">{{ pagina.contenido }}</div>
+
+  <div class="donde">
+    <section aria-labelledby="direccion">
+      <h2 id="direccion">Dirección</h2>
+      <address class="direccion">
+        {{ l.nombre }}<br>
+        {{ l.calle }}<br>
+        {{ l.codigoPostal }} {{ l.localidad }} ({{ l.provincia }})
+      </address>
+      <p><a class="boton" href="{{ mapa }}" target="_blank" rel="noopener noreferrer">Ver en el mapa<span class="oculto"> (se abre en una pestaña nueva)</span></a></p>
+
+      {% if l.comoLlegar|length %}
+      <h2>Cómo llegar</h2>
+      <ul class="como-llegar">
+        {% for c in l.comoLlegar %}
+        <li><strong>{{ c.medio }}.</strong> {{ c.texto }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </section>
+
+    <section aria-labelledby="cuando">
+      <h2 id="cuando">Cuándo</h2>
+      <p class="direccion">{{ f.cuando(e) }}</p>
+      <p>De las {{ e.inicio.hora }} del {{ e.inicio.dia|fecha('l') }} a las {{ e.fin.hora }} del {{ e.fin.dia|fecha('l') }}.</p>
+      <p><a href="/evento.ics">Añadir a mi calendario</a></p>
+    </section>
+  </div>
+</div>
+{% endblock %}

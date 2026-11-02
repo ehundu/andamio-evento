@@ -1,0 +1,8 @@
+{# La tarjeta de un ponente: su foto, su nombre y quién es. Recibe `p` (el ponente) #}
+<li class="ponente">
+  <a class="ponente__enlace" href="{{ p.url }}">
+    {% if p.foto %}<img class="ponente__foto" src="/{{ p.foto }}" width="240" height="240" alt="" loading="lazy">{% endif %}
+    <strong>{{ p.titulo }}</strong>
+    {% if p.cargo %}<span class="ponente__cargo">{{ p.cargo }}{% if p.organizacion %}, {{ p.organizacion }}{% endif %}</span>{% endif %}
+  </a>
+</li>

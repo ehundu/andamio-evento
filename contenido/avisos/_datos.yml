@@ -1,0 +1,5 @@
+# Los avisos de arriba de todas las páginas. Cada fichero de esta carpeta es un aviso, y un fragmento: no tiene página
+# propia (`url: false`), pero parciales/anuncio.twig lo recoge por su etiqueta. Sale entre su `publicar` y su
+# `publicarHasta`, y se va solo cuando pasa su fecha. Si hay varios vigentes a la vez, sale el de menor `orden`.
+etiquetas: [avisos]
+url: false

@@ -1,0 +1,5 @@
+{# El atajo [aviso tipo="modelo"]…[/aviso]: un recuadro destacado. Lo usan los textos legales de modelo para avisar de que hay
+   que revisarlos antes de publicar. `tipo` es la clase del recuadro: nota (por defecto) o modelo. #}
+<div class="aviso aviso--{{ tipo|default('nota') }}" role="note">
+  {{ contenido }}
+</div>

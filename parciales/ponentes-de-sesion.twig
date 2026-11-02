@@ -1,0 +1,12 @@
+{# Los ponentes de una sesión, con un enlace a su ficha. Recibe `s`. La sesión los nombra por el nombre del fichero de su ficha
+   (`ponentes: [ana-ruiz]`). Un ponente que aún no se ha publicado (su ficha tiene un `publicar` en el futuro) no sale: si
+   no sale ninguno, la sesión dice que se anunciará #}
+{% if s.ponentes %}
+{% set enlaces = [] %}
+{% for clave in s.ponentes %}
+{% for p in coleccion('ponentes')|donde('url', '/ponentes/' ~ clave ~ '/')|limite(1) %}
+{% set enlaces = enlaces|merge(['<a href="' ~ p.url ~ '">' ~ (p.titulo|e) ~ '</a>']) %}
+{% endfor %}
+{% endfor %}
+<p class="sesion__ponentes">{% if enlaces|length %}{{ enlaces|join(', ')|raw }}{% else %}Ponente por anunciar{% endif %}</p>
+{% endif %}

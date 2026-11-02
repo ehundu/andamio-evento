@@ -1,0 +1,35 @@
+{% extends 'plantillas/base.twig' %}
+
+{# El programa: un apartado por cada día de datos/evento.yml, con sus sesiones ordenadas por hora y, a igual hora, por sala #}
+{% block cuerpo %}
+{% set e = datos.evento %}
+<div class="contenedor programa">
+  <h1>{{ pagina.titulo }}</h1>
+  <div class="prosa">{{ pagina.contenido }}</div>
+
+  <nav class="programa__dias" aria-label="Días del programa">
+    <ul>
+      {% for d in e.dias %}
+      <li><a href="#{{ d.nombre|slug }}">{{ d.nombre }} {{ d.dia|fecha('j') }}</a></li>
+      {% endfor %}
+      <li><a href="/programa.ics">Añadir el programa al calendario</a></li>
+    </ul>
+  </nav>
+
+  {% for d in e.dias %}
+  {% set sesiones = coleccion('sesiones')|donde('dia', d.dia|date('Y-m-d'))|orden('hora, sala') %}
+  <section class="dia" id="{{ d.nombre|slug }}" aria-labelledby="dia-{{ loop.index }}">
+    <h2 id="dia-{{ loop.index }}">{{ d.nombre }} <span>{{ d.dia|fecha('j \\d\\e F') }}</span></h2>
+    {% if sesiones|length %}
+    <ol class="sesiones">
+      {% for s in sesiones %}
+      {% include 'parciales/sesion.twig' %}
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p>El programa de este día se anunciará pronto.</p>
+    {% endif %}
+  </section>
+  {% endfor %}
+</div>
+{% endblock %}

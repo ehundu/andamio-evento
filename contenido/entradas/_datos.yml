@@ -1,0 +1,5 @@
+# Los tipos de entrada. Cada fichero de esta carpeta es un tipo, y un fragmento: no tiene página propia (`url: false`), pero
+# plantillas/entradas.twig y los datos para los buscadores lo recogen por su etiqueta. Sale entre su `publicar` y su
+# `publicarHasta`, así que cada tipo aparece y desaparece en su fecha al compilar.
+etiquetas: [entradas]
+url: false

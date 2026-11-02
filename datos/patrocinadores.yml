@@ -1,0 +1,28 @@
+# Quién patrocina el evento, por niveles: el orden de esta lista es el orden en que salen. Cada patrocinador lleva su
+# logotipo, un fichero de publico/img/patrocinadores/ (mejor SVG), y un enlace a su web. Un nivel sin patrocinadores no
+# sale. Los de ejemplo son inventados.
+niveles:
+  - nombre: Patrocinador principal
+    clase: principal
+    patrocinadores:
+      - nombre: Taller Norte
+        logo: img/patrocinadores/taller-norte.svg
+        enlace: https://example.org/taller-norte
+  - nombre: Patrocinadores
+    clase: general
+    patrocinadores:
+      - nombre: Estudio Marea
+        logo: img/patrocinadores/estudio-marea.svg
+        enlace: https://example.org/estudio-marea
+      - nombre: Cooperativa Rastro
+        logo: img/patrocinadores/cooperativa-rastro.svg
+        enlace: https://example.org/cooperativa-rastro
+  - nombre: Colaboran
+    clase: colaboran
+    patrocinadores:
+      - nombre: Bureau Ejemplo
+        logo: img/patrocinadores/bureau-ejemplo.svg
+        enlace: https://example.org/bureau-ejemplo
+      - nombre: Imprenta Aurora
+        logo: img/patrocinadores/imprenta-aurora.svg
+        enlace: https://example.org/imprenta-aurora

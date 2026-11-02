@@ -1,0 +1,21 @@
+{# La cuenta atrás de la portada. Sin JavaScript se ve la fecha de comienzo y nada más; con él (publico/js/cuenta.js, que la
+   portada declara con su campo `js`), cuánto falta, y cuando llega la hora, que el evento está en marcha o que ya ha
+   terminado. Los textos están aquí, no en el script. El motor calcula el desfase de la zona horaria, también con el
+   cambio de hora, así que `inicio` y `fin` salen como 2027-05-14T09:00:00+02:00 #}
+{% set e = datos.evento %}
+{% set inicio = (e.inicio.dia|date('Y-m-d') ~ ' ' ~ e.inicio.hora)|date('c') %}
+{% set fin = (e.fin.dia|date('Y-m-d') ~ ' ' ~ e.fin.hora)|date('c') %}
+<div class="cuenta" data-cuenta data-inicio="{{ inicio }}" data-fin="{{ fin }}" data-antes="Empieza en" data-durante="El evento está en marcha" data-despues="El evento ya ha terminado. ¡Gracias por venir!">
+  <p class="cuenta__fecha">Empieza el <time datetime="{{ inicio }}">{{ e.inicio.dia|fecha('l j \\d\\e F') }}, a las {{ e.inicio.hora }}</time></p>
+  {# `hidden` hasta que el script lo muestra: sin JavaScript, el reloj no aparece #}
+  <div class="cuenta__reloj" role="timer" hidden>
+    <p class="cuenta__mensaje" data-mensaje></p>
+    <ul class="cuenta__cifras" aria-hidden="true">
+      <li><b data-unidad="dias">0</b> <span data-uno="día" data-varios="días">días</span></li>
+      <li><b data-unidad="horas">0</b> <span data-uno="hora" data-varios="horas">horas</span></li>
+      <li><b data-unidad="minutos">0</b> <span data-uno="minuto" data-varios="minutos">minutos</span></li>
+      <li><b data-unidad="segundos">0</b> <span data-uno="segundo" data-varios="segundos">segundos</span></li>
+    </ul>
+    <p class="oculto" data-texto></p>
+  </div>
+</div>

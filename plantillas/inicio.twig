@@ -1,0 +1,82 @@
+{% extends 'plantillas/base.twig' %}
+{% import 'parciales/macros.twig' as f %}
+
+{# La portada: el nombre del evento, cuándo y dónde es, la cuenta atrás, los ponentes principales, los días del programa, el
+   lugar y quién patrocina #}
+{% block datosEstructurados %}
+{% include 'parciales/datos-estructurados.twig' %}
+{% endblock %}
+
+{% block cuerpo %}
+{% set e = datos.evento %}
+<section class="hero" aria-labelledby="evento">
+  <div class="contenedor hero__cuerpo">
+    <p class="hero__tipo">{{ e.tipo }} · {{ e.edicion }}</p>
+    <h1 id="evento">{{ e.nombre }}</h1>
+    <p class="hero__lema">{{ e.lema }}</p>
+    <p class="hero__donde"><span>{{ f.cuando(e) }}</span> <span aria-hidden="true">·</span> <span>{{ e.lugar.nombre }}, {{ e.lugar.localidad }}</span></p>
+    {% include 'parciales/cuenta-atras.twig' %}
+    <p class="hero__botones">
+      <a class="boton boton--ambar" href="/entradas/">Conseguir entrada</a>
+      <a class="boton boton--borde" href="/programa/">Ver el programa</a>
+    </p>
+    <p class="hero__calendario"><a href="/evento.ics">Añadir a mi calendario</a></p>
+  </div>
+</section>
+
+<div class="contenedor portada">
+  <section class="portada__bloque portada__intro" aria-labelledby="que-es">
+    <h2 id="que-es">Qué es</h2>
+    <div class="prosa">{{ pagina.contenido }}</div>
+  </section>
+
+  {# `keynote: true` en la ficha de un ponente lo lleva aquí. Es un campo propio, así que vale `true`, no «sí» #}
+  {% set principales = coleccion('ponentes')|donde('keynote', true)|orden('titulo') %}
+  {% if principales|length %}
+  <section class="portada__bloque" aria-labelledby="ponentes">
+    <h2 id="ponentes">Quién viene</h2>
+    <ul class="ponentes">
+      {% for p in principales %}
+      {% include 'parciales/tarjeta-ponente.twig' %}
+      {% endfor %}
+    </ul>
+    <p class="portada__mas"><a href="/ponentes/">Ver a los {{ coleccion('ponentes')|length }} ponentes →</a></p>
+  </section>
+  {% endif %}
+
+  <section class="portada__bloque" aria-labelledby="programa">
+    <h2 id="programa">El programa</h2>
+    <ul class="dias-resumen">
+      {% for d in e.dias %}
+      {% set sesiones = coleccion('sesiones')|donde('dia', d.dia|date('Y-m-d'))|filter(s => s.ponentes) %}
+      <li>
+        <a class="dia-tarjeta" href="/programa/#{{ d.nombre|slug }}">
+          <strong>{{ d.nombre }}, {{ d.dia|fecha('j \\d\\e F') }}</strong>
+          <span>{{ sesiones|length }} {{ sesiones|length == 1 ? 'sesión' : 'sesiones' }} con ponentes</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="portada__mas"><a href="/programa/">Ver el programa completo →</a></p>
+  </section>
+
+  <section class="portada__bloque portada__dos" aria-labelledby="donde">
+    <div>
+      <h2 id="donde">Dónde</h2>
+      <address class="direccion">
+        {{ e.lugar.nombre }}<br>
+        {{ e.lugar.calle }}<br>
+        {{ e.lugar.codigoPostal }} {{ e.lugar.localidad }} ({{ e.lugar.provincia }})
+      </address>
+      <p><a href="/lugar/">Ver el mapa y cómo llegar →</a></p>
+    </div>
+    <div>
+      <h2>Entradas</h2>
+      <p>Mira los tipos de entrada y los plazos en la página de entradas.</p>
+      <p><a class="boton" href="/entradas/">Ver las entradas</a></p>
+    </div>
+  </section>
+
+  {% include 'parciales/patrocinadores.twig' with {'compacto': true} %}
+</div>
+{% endblock %}

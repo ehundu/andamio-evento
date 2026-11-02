@@ -1,0 +1,5 @@
+# Las sesiones del programa. Cada fichero de estas carpetas es una sesión, y un fragmento: no tiene página propia
+# (`url: false`), pero plantillas/programa.twig, las fichas de los ponentes y el calendario las recogen por su etiqueta.
+# Cada día es una carpeta con su propio _datos.yml, donde se escribe el `dia` una sola vez para todas sus sesiones.
+etiquetas: [sesiones]
+url: false

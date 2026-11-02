@@ -1,0 +1,12 @@
+# Quién organiza el evento y es el titular del sitio, para los textos legales (contenido/legal/). El atajo
+# [dato clave="titular.nombre"] los escribe en el Markdown sin repetirlos. Son datos de relleno: pon los del titular de
+# verdad, que tiene que ser quien manda en el evento, sea una persona, una asociación o una sociedad.
+nombre: Nombre y apellidos o razón social del titular
+nif: 00000000X
+domicilio: Calle Ejemplo 1, 48001 Bilbao (Bizkaia)
+localidad: Bilbao
+telefono: 944 000 000
+email: hola@hilvan.example
+# Solo para sociedades: los datos del Registro Mercantil. Si eres una asociación o un autónomo, borra también la línea
+# «Datos registrales» de contenido/legal/aviso-legal.md.
+registro: Registro Mercantil de Bizkaia, tomo 0000, folio 000, hoja BI-00000

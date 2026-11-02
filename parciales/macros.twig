@@ -1,0 +1,16 @@
+{# Macros que se usan en varias plantillas: {% import 'parciales/macros.twig' as f %} y luego {{ f.cuando(e) }} #}
+
+{# Cuándo es el evento, en una frase corta según cómo caigan los días: «14 de mayo de 2027» si es uno solo, «14 y 15 de
+   mayo de 2027» si son dos o más del mismo mes, y «30 de abril al 2 de mayo de 2027» si cruzan de mes. Recibe
+   `datos.evento` #}
+{% macro cuando(e) -%}
+{%- set primero = e.inicio.dia|date('Y-m-d') -%}
+{%- set ultimo = e.fin.dia|date('Y-m-d') -%}
+{%- if primero == ultimo -%}
+{{ e.inicio.dia|fecha('j \\d\\e F \\d\\e Y') }}
+{%- elseif primero|slice(0, 7) == ultimo|slice(0, 7) -%}
+{{ e.inicio.dia|fecha('j') }} y {{ e.fin.dia|fecha('j \\d\\e F \\d\\e Y') }}
+{%- else -%}
+{{ e.inicio.dia|fecha('j \\d\\e F') }} al {{ e.fin.dia|fecha('j \\d\\e F \\d\\e Y') }}
+{%- endif -%}
+{%- endmacro %}
